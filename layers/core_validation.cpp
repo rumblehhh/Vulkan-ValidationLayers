@@ -7759,11 +7759,7 @@ bool CoreChecks::ValidateFramebufferCreateInfo(const VkFramebufferCreateInfo *pC
                 const VkImageView *image_views = pCreateInfo->pAttachments;
                 for (uint32_t i = 0; i < pCreateInfo->attachmentCount; ++i) {
                     auto view_state = GetImageViewState(image_views[i]);
-                    if (view_state == nullptr) {
-                        skip |= LogError(
-                            image_views[i], "VUID-VkFramebufferCreateInfo-flags-03188",
-                            "vkCreateFramebuffer(): VkFramebufferCreateInfo attachment #%u is not a valid VkImageView.", i);
-                    } else {
+                    if (view_state != nullptr) {
                         auto &ivci = view_state->create_info;
                         if (ivci.format != rpci->pAttachments[i].format) {
                             skip |= LogError(
